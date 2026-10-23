@@ -1,0 +1,15 @@
+name: decompile
+on: workflow_dispatch
+jobs:
+  decompile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: {distribution: temurin, java-version: 21}
+      - name: Скачать CFR
+        run: curl -L -o cfr.jar https://repo1.maven.org/maven2/org/benf/cfr/0.152/cfr-0.152.jar
+      - name: Декомпиляция Really Visuals (MIT)
+        run: java -jar cfr.jar ReaalyVisuals-shield.jar --outputdir rv-src --silent true
+      - uses: actions/upload-artifact@v4
+        with: {name: rv-src, path: rv-src}
